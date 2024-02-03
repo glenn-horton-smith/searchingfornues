@@ -378,22 +378,20 @@ table, th, td {
                 + html.escape(" " + atext)
                 for aline, atext in db.execute(select_a, (fileid, branchid))
             )
+            hrow = [
+                bleafdef,
+                treename,
+                filename + git_source_link(filename, fileline, git_sourcecode_prefix),
+                comment_texts,
+                assign_texts,
+            ]
             if irow == 1:
-                hrow = [
-                    bleafdef,
-                    treename,
-                    filename
-                    + git_source_link(filename, fileline, git_sourcecode_prefix),
-                    comment_texts,
-                    assign_texts,
-                ]
                 if bcount > 1:
                     fout.write(html_td_row_rowspan1(hrow, bcount))
                 else:
                     fout.write(html_td_row(hrow))
             else:
-                hrow = [treename, f"{filename}:{fileline}", comment_texts, assign_texts]
-                fout.write(html_td_row(hrow))
+                fout.write(html_td_row(hrow[1:]))
         # end loop over (tree, file) for common bleafdef's
     # end loop over unique bleafdef's
     fout.write("</table>\n")
